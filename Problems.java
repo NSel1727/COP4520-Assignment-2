@@ -10,7 +10,7 @@ public class Problems{
         System.out.println("Starting Problem 1:\n");
         BirthdayParty.main(null);
         System.out.println("\nStarting Problem 2:\n");
-
+        CrystalVase.main(null);
     }
 }
 
@@ -85,13 +85,50 @@ class BirthdayParty implements Runnable{
 class CrystalVase implements Runnable{
     private static ReentrantLock lock = new ReentrantLock();
 
+    private final static int numGuests = 8;
+
+    private static Map<Thread, Integer> threadIdentity = new HashMap<>();
+
+    // Implements the second strategy of setting the showroom
+    // to "AVAILABLE" and "BUSY"
     @Override
     public void run(){
- 
+        // tryLock() will let the guest in if the 
+        // sign is set to "AVAILABLE", and then will
+        // make the guest set it to "BUSY"
+        while(true){
+            if(lock.tryLock()){
+                System.out.println("Showroom sign says: BUSY");
+
+                int threadNum = threadIdentity.get(Thread.currentThread());
+
+                System.out.println("Guest " + (threadNum + 1) + " is currently in the showroom");
+
+                System.out.println("Showroom sign says: AVAILABLE");
+
+                // Unlock the lock, essentially expressing that the room is
+                // open now for other guests to enter
+                lock.unlock();
+            }
+        }
     }
 
     public static void main(String[] args) throws InterruptedException{
-        
+        CrystalVase cv = new CrystalVase();
+
+        List<Thread> guests = new ArrayList<>();
+
+        for(int i = 0; i < numGuests; i++){
+            Thread t = new Thread(cv);
+            threadIdentity.put(t, i);
+            guests.add(t);
+        }
+
+        for(Thread t : guests)
+            t.start();
+
+        for(Thread t : guests)
+            t.join();
 
     }
 }
