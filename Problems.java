@@ -20,9 +20,9 @@ class BirthdayParty implements Runnable{
     private static Map<Thread, Integer> threadIdentity = new HashMap<>();
     private static Map<Integer, Integer> cupcakeFreq = new HashMap<>();
 
-    private final static int numGuests = 8;
+    private static int numGuests;
 
-    private static boolean[] hasEaten = new boolean[numGuests];
+    private static boolean[] hasEaten;
 
     // Represents the number of instances a guest goes and
     // sees no cupcake
@@ -61,6 +61,16 @@ class BirthdayParty implements Runnable{
     public static void main(String[] args) throws InterruptedException{
         BirthdayParty bp = new BirthdayParty();
 
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("How many guests at the party: ");
+
+        numGuests = in.nextInt();
+
+        System.out.println();
+
+        hasEaten = new boolean[numGuests];
+
         List<Thread> guests = new ArrayList<>();
 
         for(int i = 0; i < numGuests; i++){
@@ -85,9 +95,12 @@ class BirthdayParty implements Runnable{
 class CrystalVase implements Runnable{
     private static ReentrantLock lock = new ReentrantLock();
 
-    private final static int numGuests = 8;
+    private static int numGuests;
 
     private static Map<Thread, Integer> threadIdentity = new HashMap<>();
+
+    // Keeps track of how many unique guests have entered
+    private static Set<Integer> guestSet = new HashSet<>();
 
     // Implements the second strategy of setting the showroom
     // to "AVAILABLE" and "BUSY"
@@ -96,11 +109,13 @@ class CrystalVase implements Runnable{
         // tryLock() will let the guest in if the 
         // sign is set to "AVAILABLE", and then will
         // make the guest set it to "BUSY"
-        while(true){
+        while(guestSet.size() < numGuests){
             if(lock.tryLock()){
                 System.out.println("Showroom sign says: BUSY");
 
                 int threadNum = threadIdentity.get(Thread.currentThread());
+
+                guestSet.add(threadNum);
 
                 System.out.println("Guest " + (threadNum + 1) + " is currently in the showroom");
 
@@ -115,6 +130,14 @@ class CrystalVase implements Runnable{
 
     public static void main(String[] args) throws InterruptedException{
         CrystalVase cv = new CrystalVase();
+
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("How many guests at the party: ");
+
+        numGuests = in.nextInt();
+
+        System.out.println();
 
         List<Thread> guests = new ArrayList<>();
 
