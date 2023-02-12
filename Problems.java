@@ -63,7 +63,7 @@ class BirthdayParty implements Runnable{
 
         Scanner in = new Scanner(System.in);
 
-        System.out.print("How many guests at the party: ");
+        System.out.print("How many guests are at the party: ");
 
         numGuests = in.nextInt();
 
@@ -88,7 +88,7 @@ class BirthdayParty implements Runnable{
         System.out.println(numGuests + " guests total\n");
 
         for(int i = 0; i < numGuests; i++)
-            System.out.println("Guest " + (i + 1) + " says: I saw that " + ((cupcakeFreq.get(i) == null) ? 0 : cupcakeFreq.get(i)) + " guests have finished");
+            System.out.println("Guest " + (i + 1) + " says: I saw that " + ((cupcakeFreq.get(i) == null) ? 0 : cupcakeFreq.get(i)) + " guest(s) have finished");
     }
 }
 
@@ -133,7 +133,7 @@ class CrystalVase implements Runnable{
 
         Scanner in = new Scanner(System.in);
 
-        System.out.print("How many guests at the party: ");
+        System.out.print("How many guests want to enter the showroom: ");
 
         numGuests = in.nextInt();
 
@@ -153,5 +153,6 @@ class CrystalVase implements Runnable{
         for(Thread t : guests)
             t.join();
 
+        System.out.println("\nAll " + numGuests + " guest(s) have visited the showroom");
     }
 }
