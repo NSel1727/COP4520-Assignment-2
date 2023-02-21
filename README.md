@@ -28,7 +28,7 @@ Number of Guests  | Runtime (ms)
 Just like problem 1, my program asks for the number of threads used where each thread represents a guest. A reentrant lock is again utilized to allow only one guest/thread at a time to access the showroom.
 
 ### Chosen Strategy
-I chose the second strategy of switching between a sign saying "AVAILABLE" when the room is not occupied, otherwise "BUSY" when it is in use. The advantage of this strategy is that it ensures that every guest will know when they can enter, and that way no two guests can be in the room at the same time. However, a disadvantage is that there is no proper ordering among who can enter, and the guest that had just been in the room may have an advantage at the moment when they immeditately leave in reentering the room.
+I chose the second strategy of switching between a sign saying "AVAILABLE" when the room is not occupied, otherwise "BUSY" when it is in use. I preferred this strategy because it closely simulates how a real example would work where there is a clear indication of when the room is available and when it is not. The advantage of this strategy is that it ensures that every guest will know when they can enter, and as a result, no two guests can be in the room at the same time. However, a disadvantage is that there is no proper ordering among who can enter, and the guest that had just been in the room may have an advantage at the moment when they immeditately leave in terms of reentering the room.
 
 It terms of the algorithm used, it is a simpler version of the one in problem 1. A guest will enter the room, lock it, state that it is busy, state that they are in it, then say it is available and unlock it. This is ran until every guest has visited the room at least once.
 
